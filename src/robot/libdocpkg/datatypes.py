@@ -47,12 +47,12 @@ class TypeDoc(Sortable):
         return self.name.lower()
 
     @classmethod
-    def for_type(cls, type_hint, converters):
+    def for_type(cls, type_hint, converters, languages):
         if isinstance(type_hint, EnumType):
             return cls.for_enum(type_hint)
         if isinstance(type_hint, typeddict_types):
             return cls.for_typed_dict(type_hint)
-        converter = TypeConverter.converter_for(type_hint, converters)
+        converter = TypeConverter.converter_for(type_hint, converters, languages)
         if not converter:
             return None
         elif not converter.type:

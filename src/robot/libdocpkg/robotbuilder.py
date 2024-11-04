@@ -25,6 +25,7 @@ from robot.variables import search_variable
 
 from .datatypes import TypeDoc
 from .model import LibraryDoc, KeywordDoc
+from ..conf.languages import Languages
 
 
 class LibraryDocBuilder:
@@ -67,11 +68,12 @@ class LibraryDocBuilder:
 
     def _get_type_docs(self, keywords, custom_converters):
         type_docs = {}
+        languages = Languages()
         for kw in keywords:
             for arg in kw.args:
                 kw.type_docs[arg.name] = {}
                 for type_info in self._yield_type_info(arg.type):
-                    type_doc = TypeDoc.for_type(type_info.type, custom_converters)
+                    type_doc = TypeDoc.for_type(type_info.type, custom_converters, languages)
                     if type_doc:
                         kw.type_docs[arg.name][type_info.name] = type_doc.name
                         type_docs.setdefault(type_doc, set()).add(kw.name)
